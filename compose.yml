@@ -1,0 +1,22 @@
+services:
+  sql-server:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    environment:
+      SA_PASSWORD: "Password1234!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-U", "sa", "-P", "Password1234!", "-Q", "'SELECT * FROM master.sys.all_columns'"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  web:
+    build: .
+    depends_on:
+      sql-server:
+        condition: service_healthy
+    links:
+      - sql-server:database
+    ports:
+      - "8001:8001"

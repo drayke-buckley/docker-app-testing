@@ -1,0 +1,9 @@
+name: dockertest
+channels:
+  - defaults
+dependencies:
+ - fastapi
+ - uvicorn
+ - pyodbc
+ - pytest
+prefix: C:\Users\elite\anaconda3\envs\dockertest
